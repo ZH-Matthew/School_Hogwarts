@@ -23,6 +23,10 @@ public class StudentService {
         return studentRepository.findById(id).get();
     }
 
+    public Student findStudentByName(long id) {
+        return studentRepository.findById(id).get();
+    }
+
     public Student editStudent(Student student) {
         return studentRepository.save(student);
     }
@@ -35,4 +39,13 @@ public class StudentService {
     public List<Student> findByAge(long age) {
         return studentRepository.findByAge(age);
     }
+
+    public List<Student> findByAgeBetween(long min, long max) {
+        return studentRepository.findByAgeBetween(min, max);
+    }
+
+    public List<Student> findStudentsByFaculty(long id) {
+        return studentRepository.findStudentsByFaculty_Id(id);
+    }
+
 }

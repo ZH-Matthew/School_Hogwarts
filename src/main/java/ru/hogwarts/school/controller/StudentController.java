@@ -3,6 +3,7 @@ package ru.hogwarts.school.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.StudentService;
 
@@ -26,14 +27,28 @@ public class StudentController {
         return ResponseEntity.ok(student);
     }
 
-    @GetMapping("byAge/{id}")
-    public ResponseEntity<Collection<Student>> getStudentByAge(@PathVariable long id) {
-        Collection<Student> allStudentByAge = studentService.findByAge(id);
-        if (allStudentByAge.isEmpty()) {
+    @GetMapping("getFaculty/{id}")
+    public Faculty getIdFacultyByStudentName(@PathVariable long id) {
+        return studentService.findStudentByName(id).getFaculty();
+    }
+
+    @GetMapping("allByFaculty/{id}")
+    public ResponseEntity<Collection<Student>> getStudentsByFaculty(@PathVariable long id) {
+        Collection<Student> allStudentByFaculty = studentService.findStudentsByFaculty(id);
+        if (allStudentByFaculty.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(allStudentByAge);
+        return ResponseEntity.ok(allStudentByFaculty);
+    }
 
+    @GetMapping()
+    public ResponseEntity<Collection<Student>> getStudentByAgeBetween(@RequestParam long min,
+                                                                      @RequestParam long max) {
+        Collection<Student> allStudentByAgeBetween = studentService.findByAgeBetween(min, max);
+        if (allStudentByAgeBetween.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(allStudentByAgeBetween);
     }
 
     @PostMapping
