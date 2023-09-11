@@ -20,6 +20,10 @@ public class Student {
         return id;
     }
 
+    public void setFaculty(Faculty faculty) {
+        this.faculty = faculty;
+    }
+
     public Faculty getFaculty() {
         return faculty;
     }
