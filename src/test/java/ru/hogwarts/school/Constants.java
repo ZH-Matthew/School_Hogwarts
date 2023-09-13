@@ -17,29 +17,18 @@ public class Constants {
     public static final JSONObject STUDENT_OBJECT = new JSONObject();
     public static final Student STUDENT = new Student();
 
-
-        public static void initializationStudent(){
-            STUDENT_OBJECT.put("name", NAME_S);
-            STUDENT_OBJECT.put("age", AGE_S);
-            STUDENT.setId(ID_S);
-            STUDENT.setName(NAME_S);
-            STUDENT.setAge(AGE_S);
-        }
-
-        public static void initializationFaculty(){
-            FACULTY_OBJECT.put("name", NAME);
-            FACULTY_OBJECT.put("color", COLOR);
-            FACULTY.setId(ID);
-            FACULTY.setName(NAME);
-            FACULTY.setColor(COLOR);
-        }
-
-        public static void addFaculty(){
-            Faculty faculty = new Faculty();
-            faculty.setId(1L);
-            faculty.setName("Бригадный подряд");
-            faculty.setColor("Чёрный");
-            STUDENT_OBJECT.put("faculty",faculty);
-            STUDENT.setFaculty(faculty);
-        }
+    static {
+        STUDENT_OBJECT.put("name", NAME_S);
+        STUDENT_OBJECT.put("age", AGE_S);
+        STUDENT.setId(ID_S);
+        STUDENT.setName(NAME_S);
+        STUDENT.setAge(AGE_S);
+        FACULTY_OBJECT.put("name", NAME);
+        FACULTY_OBJECT.put("color", COLOR);
+        FACULTY.setId(ID);
+        FACULTY.setName(NAME);
+        FACULTY.setColor(COLOR);
+        STUDENT_OBJECT.put("faculty",FACULTY);
+        STUDENT.setFaculty(FACULTY);
+    }
 }

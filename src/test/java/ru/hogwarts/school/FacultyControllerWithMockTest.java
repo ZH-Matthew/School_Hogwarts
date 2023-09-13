@@ -43,7 +43,6 @@ class FacultyControllerWithMockTest {
 
     @Test
     public void getFacultyTest() throws Exception {
-        Constants.initializationFaculty();
         when(facultyRepository.save(any(Faculty.class))).thenReturn(FACULTY);
         when(facultyRepository.findById(any(Long.class))).thenReturn(Optional.of(FACULTY));
 
@@ -57,7 +56,6 @@ class FacultyControllerWithMockTest {
 
     @Test
     public void postFacultyTest() throws Exception {
-        Constants.initializationFaculty();
         when(facultyRepository.save(any(Faculty.class))).thenReturn(FACULTY);
         when(facultyRepository.findById(any(Long.class))).thenReturn(Optional.of(FACULTY));
 
@@ -73,7 +71,6 @@ class FacultyControllerWithMockTest {
 
     @Test
     public void putFacultyTest() throws Exception {
-        Constants.initializationFaculty();
         when(facultyRepository.save(any(Faculty.class))).thenReturn(FACULTY);
         when(facultyRepository.findById(any(Long.class))).thenReturn(Optional.of(FACULTY));
 
@@ -88,7 +85,6 @@ class FacultyControllerWithMockTest {
     }
     @Test
     public void deleteFacultyTest() throws Exception {
-        Constants.initializationFaculty();
         mockMvc.perform(MockMvcRequestBuilders
                         .delete("/faculty/1")
                         .content(FACULTY_OBJECT.toString())
@@ -99,7 +95,6 @@ class FacultyControllerWithMockTest {
 
     @Test
     public void getFacultyByNameOrColorTest() throws Exception {
-        Constants.initializationFaculty();
         when(facultyRepository.findByNameIgnoreCaseOrColorIgnoreCase("Faculty", null)).thenReturn(List.of(FACULTY));
 
         mockMvc.perform(MockMvcRequestBuilders

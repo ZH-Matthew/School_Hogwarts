@@ -53,7 +53,6 @@ class StudentControllerWithMockTest {
 
     @Test
     public void getStudentTest() throws Exception {
-        Constants.initializationStudent();
         when(studentRepository.findById(any(Long.class))).thenReturn(Optional.of(STUDENT));
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/student/" + ID_S)
@@ -65,7 +64,6 @@ class StudentControllerWithMockTest {
 
     @Test
     public void postStudentTest() throws Exception {
-        Constants.initializationStudent();
         when(studentRepository.save(any(Student.class))).thenReturn(STUDENT);
         when(studentRepository.findById(any(Long.class))).thenReturn(Optional.of(STUDENT));
         mockMvc.perform(MockMvcRequestBuilders
@@ -80,7 +78,6 @@ class StudentControllerWithMockTest {
     }
     @Test
     public void putStudentTest() throws Exception {
-        Constants.initializationStudent();
         when(studentRepository.save(any(Student.class))).thenReturn(STUDENT);
         when(studentRepository.findById(any(Long.class))).thenReturn(Optional.of(STUDENT));
         mockMvc.perform(MockMvcRequestBuilders
@@ -95,7 +92,6 @@ class StudentControllerWithMockTest {
     }
     @Test
     public void deleteStudentTest() throws Exception {
-        Constants.initializationStudent();
         when(studentRepository.findById(any(Long.class))).thenReturn(Optional.of(STUDENT));
         mockMvc.perform(MockMvcRequestBuilders
                         .delete("/student/1")
@@ -108,9 +104,6 @@ class StudentControllerWithMockTest {
 
     @Test
     public void getIdFacultyByStudentNameTest() throws Exception {
-        Constants.initializationStudent();
-        Constants.initializationFaculty();
-        Constants.addFaculty();
         when(studentRepository.findById(any(Long.class))).thenReturn(Optional.of(STUDENT));
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/student/getFaculty/" + ID_S)
@@ -121,7 +114,6 @@ class StudentControllerWithMockTest {
 
     @Test
     public void getStudentsByFacultyTest() throws Exception {
-        Constants.initializationStudent();
         when(studentRepository.findStudentsByFaculty_Id(any(Long.class))).thenReturn(List.of(STUDENT));
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/student/allByFaculty/1")
@@ -133,7 +125,6 @@ class StudentControllerWithMockTest {
     }
     @Test
     public void getStudentByAgeBetweenTest() throws Exception {
-        Constants.initializationStudent();
         when(studentRepository.findByAgeBetween(10L,30L)).thenReturn(List.of(STUDENT));
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/student?min=10&max=30")
