@@ -38,7 +38,7 @@ public class Constants {
             Faculty faculty = new Faculty();
             faculty.setId(1L);
             faculty.setName("Бригадный подряд");
-            faculty.setName("Чёрный");
+            faculty.setColor("Чёрный");
             STUDENT_OBJECT.put("faculty",faculty);
             STUDENT.setFaculty(faculty);
         }

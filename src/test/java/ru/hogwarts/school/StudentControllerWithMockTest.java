@@ -16,6 +16,8 @@ import ru.hogwarts.school.repository.StudentRepository;
 import ru.hogwarts.school.service.AvatarService;
 import ru.hogwarts.school.service.FacultyService;
 import ru.hogwarts.school.service.StudentService;
+
+import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -113,6 +115,32 @@ class StudentControllerWithMockTest {
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/student/getFaculty/" + ID_S)
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").value(FACULTY));
+    }
+
+    @Test
+    public void getStudentsByFacultyTest() throws Exception {
+        Constants.initializationStudent();
+        when(studentRepository.findStudentsByFaculty_Id(any(Long.class))).thenReturn(List.of(STUDENT));
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/student/allByFaculty/1")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$[0].id").value(ID_S))
+                .andExpect(jsonPath("$[0].name").value(NAME_S));
+    }
+    @Test
+    public void getStudentByAgeBetweenTest() throws Exception {
+        Constants.initializationStudent();
+        when(studentRepository.findByAgeBetween(10L,30L)).thenReturn(List.of(STUDENT));
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/student?min=10&max=30")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$[0].id").value(ID_S))
+                .andExpect(jsonPath("$[0].name").value(NAME_S));
     }
 }

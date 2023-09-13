@@ -59,9 +59,14 @@ class StudentControllerTests {
     @Test
     public void testDeleteStudent() throws Exception {
         long id = 12;
+        ResponseEntity<Student> response = restTemplate.exchange("http://localhost:" + port + "/faculty/{id}",
+                HttpMethod.DELETE, null, Student.class, id);
         Assertions
-                .assertThat(this.restTemplate.exchange("http://localhost:" + port + "/student/{id}", HttpMethod.DELETE, null, Student.class, id))
+                .assertThat(response)
                 .isNotNull();
+        Assertions
+                .assertThat(response.getStatusCode())
+                .isEqualTo(HttpStatus.OK);
     }
 
 

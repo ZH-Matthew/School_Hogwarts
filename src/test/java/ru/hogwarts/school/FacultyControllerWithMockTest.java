@@ -1,8 +1,5 @@
 package ru.hogwarts.school;
 
-import net.minidev.json.JSONObject;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +15,8 @@ import ru.hogwarts.school.repository.FacultyRepository;
 import ru.hogwarts.school.service.AvatarService;
 import ru.hogwarts.school.service.FacultyService;
 import ru.hogwarts.school.service.StudentService;
+
+import java.util.List;
 import java.util.Optional;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -26,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static ru.hogwarts.school.Constants.*;
 
 @WebMvcTest
-class SchoolApplicationWithMockTest2 {
+class FacultyControllerWithMockTest {
     @Autowired
     private MockMvc mockMvc;
 
@@ -96,6 +95,22 @@ class SchoolApplicationWithMockTest2 {
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void getFacultyByNameOrColorTest() throws Exception {
+        Constants.initializationFaculty();
+        when(facultyRepository.findByNameIgnoreCaseOrColorIgnoreCase("Faculty", null)).thenReturn(List.of(FACULTY));
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/faculty?name=Faculty")
+                        .content(FACULTY_OBJECT.toString())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$[0].id").value(ID))
+                .andExpect(jsonPath("$[0].name").value(NAME));
     }
 
 }
