@@ -13,7 +13,7 @@ public class Constants {
 
     public static final Long ID_S = 1L;
     public static final String NAME_S = "Anna";
-    public static final int AGE_S = 20;
+    public static final Long AGE_S = 20L;
     public static final JSONObject STUDENT_OBJECT = new JSONObject();
     public static final Student STUDENT = new Student();
 

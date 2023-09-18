@@ -3,6 +3,7 @@ package ru.hogwarts.school.service;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.StudentRepository;
+import ru.hogwarts.school.repository.sqlInteface.AllColumnsStudents;
 
 import java.util.*;
 
@@ -42,6 +43,18 @@ public class StudentService {
 
     public List<Student> findStudentsByFaculty(long id) {
         return studentRepository.findStudentsByFaculty_Id(id);
+    }
+
+    public Long getNumberOfStudents(){
+        return studentRepository.getNumberOfStudents();
+    }
+
+    public Long getAverageAge(){
+        return studentRepository.getAverageAge();
+    }
+
+    public List<AllColumnsStudents> getLastFiveStudents(){
+        return studentRepository.getLastFiveStudents();
     }
 
 }

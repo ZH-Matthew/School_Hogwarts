@@ -39,7 +39,7 @@ class StudentControllerTest{
         Student student = new Student();
         student.setId(20L);
         student.setName("Bob");
-        student.setAge(20);
+        student.setAge(20L);
         Assertions
                 .assertThat(this.restTemplate.postForObject("http://localhost:" + port + "/student", student, String.class))
                 .isNotNull();
@@ -49,7 +49,7 @@ class StudentControllerTest{
         Student student2 = new Student();
         student2.setId(20L);
         student2.setName("Bob");
-        student2.setAge(30);
+        student2.setAge(30L);
         HttpEntity<Student> entity = new HttpEntity<Student>(student2);
         Assertions
                 .assertThat(this.restTemplate.exchange("http://localhost:" + port + "/student", HttpMethod.PUT, entity, Student.class))

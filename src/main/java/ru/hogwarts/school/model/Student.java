@@ -9,7 +9,7 @@ public class Student {
     @GeneratedValue
     private Long id;
     private String name;
-    private long age;
+    private Long age;
 
 
     @ManyToOne
@@ -44,7 +44,7 @@ public class Student {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(Long age) {
         this.age = age;
     }
 
@@ -53,7 +53,7 @@ public class Student {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Student student = (Student) o;
-        return age == student.age && Objects.equals(id, student.id) && Objects.equals(name, student.name);
+        return Objects.equals(age, student.age) && Objects.equals(id, student.id) && Objects.equals(name, student.name);
     }
 
     @Override

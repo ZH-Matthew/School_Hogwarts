@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 @RestController
 @RequestMapping("avatar")
@@ -51,5 +52,23 @@ public class AvatarController {
             response.setContentLength((int) avatar.getFileSize());
             is.transferTo(os);
         }
+    }
+
+    @GetMapping("/getAvatarsByPage")
+    public ResponseEntity<byte[]> getAvatarsByPage(@RequestParam("page") Integer pageNumber,@RequestParam("size") Integer pageSize) {
+        List<Avatar> avatars = avatarService.getAvatarsByPage(pageNumber,pageSize);
+        /*Вот тут встрял, вроде код в репозитории и сервисе написан корректно, я же хочу вернуть именно страницу аватарок
+        в виде листа, значит по логике вот до этого места ^  я написал все +/- корректно, но как передать именно лист ?
+        ведь методы вызываются конкретно у каждой аватарки, а не у листа.
+        Подумал что можно пройтись фор ич по листу и сформировать у каждой аватарки респонс, но как это теперь все вернуть, я хз.
+         */
+
+        for(Avatar av : avatars){
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.parseMediaType(av.getMediaType()));
+            headers.setContentLength(av.getData().length);
+            return ResponseEntity.status(HttpStatus.OK).headers(headers).body(av.getData());
+        }
+        return null; //заглушка
     }
 }
