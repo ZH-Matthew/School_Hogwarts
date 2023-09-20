@@ -7,9 +7,9 @@ import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.sqlInteface.AllColumnsStudents;
 import ru.hogwarts.school.service.StudentService;
-
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("student")
@@ -22,16 +22,63 @@ public class StudentController {
 
     @GetMapping("{id}")
     public ResponseEntity<Student> getStudent(@PathVariable long id) {
-        Student student = studentService.findStudent(id);
-        if (student == null) {
+        Optional<Student> student = studentService.findStudent(id);
+        if (student.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(student);
+        return ResponseEntity.ok(student.get());
     }
 
-    @GetMapping("getFaculty/{id}")
-    public Faculty getIdFacultyByStudentName(@PathVariable long id) {
-        return studentService.findStudentByName(id).getFaculty();
+    @PostMapping
+    public Student postStudent(@RequestBody Student student) {
+        return studentService.createStudent(student);
+    }
+
+    @PutMapping
+    public ResponseEntity<Student> putStudent(@RequestBody Student student) {
+        Student foundStudent = studentService.editStudent(student);
+        if (foundStudent == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        return ResponseEntity.ok(foundStudent);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity deleteStudent(@PathVariable long id) {
+        studentService.deleteStudent(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/deleteAll")
+    public ResponseEntity deleteAllStudent() {
+        studentService.deleteAllStudent();
+        return ResponseEntity.ok().build();
+    }
+
+
+    //методы не относящиеся к CRUD операциям
+    @GetMapping("/getNumberOfStudents")
+    public Long getNumberOfStudents(){
+        return studentService.getNumberOfStudents();
+    }
+
+    @GetMapping("/getAverageAge")
+    public Long getAverageAge(){
+        return studentService.getAverageAge();
+    }
+
+    @GetMapping("/getLastFiveStudents")
+    public List<AllColumnsStudents> getLastFiveStudents(){
+        return studentService.getLastFiveStudents();
+    }
+
+    @GetMapping("getFacultyByStudentId/{id}")
+    public ResponseEntity<Faculty> getFacultyByStudentId(@PathVariable long id) {
+        Optional<Student> student = studentService.findStudent(id);
+        if (student.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(student.get().getFaculty());
     }
 
     @GetMapping("allByFaculty/{id}")
@@ -52,45 +99,5 @@ public class StudentController {
         }
         return ResponseEntity.ok(allStudentByAgeBetween);
     }
-
-    @PostMapping
-    public Student postStudent(@RequestBody Student student) {
-        return studentService.createStudent(student);
-    }
-
-    @PutMapping
-    public ResponseEntity<Student> putStudent(@RequestBody Student student) {
-        Student foundStudent = studentService.editStudent(student);
-        if (foundStudent == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-        return ResponseEntity.ok(foundStudent);
-    }
-
-    @DeleteMapping("{id}")
-    public ResponseEntity<Student> deleteStudent(@PathVariable long id) {
-        Student student = studentService.findStudent(id);
-        if (student == null) {
-            return ResponseEntity.notFound().build();
-        }
-        studentService.deleteStudent(id);
-        return ResponseEntity.ok(student);
-    }
-
-    @GetMapping("/getNumberOfStudents")
-    public Long getNumberOfStudents(){
-        return studentService.getNumberOfStudents();
-    }
-
-    @GetMapping("/getAverageAge")
-    public Long getAverageAge(){
-        return studentService.getAverageAge();
-    }
-
-    @GetMapping("/getLastFiveStudents")
-    public List<AllColumnsStudents> getLastFiveStudents(){
-        return studentService.getLastFiveStudents();
-    }
-
 
 }

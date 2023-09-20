@@ -1,5 +1,4 @@
 package ru.hogwarts.school;
-
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import ru.hogwarts.school.repository.FacultyRepository;
 import ru.hogwarts.school.service.AvatarService;
 import ru.hogwarts.school.service.FacultyService;
 import ru.hogwarts.school.service.StudentService;
-
 import java.util.List;
 import java.util.Optional;
 import static org.mockito.ArgumentMatchers.any;
@@ -43,7 +41,6 @@ class FacultyControllerWithMockTest {
 
     @Test
     public void getFacultyTest() throws Exception {
-        when(facultyRepository.save(any(Faculty.class))).thenReturn(FACULTY);
         when(facultyRepository.findById(any(Long.class))).thenReturn(Optional.of(FACULTY));
 
         mockMvc.perform(MockMvcRequestBuilders
@@ -57,7 +54,6 @@ class FacultyControllerWithMockTest {
     @Test
     public void postFacultyTest() throws Exception {
         when(facultyRepository.save(any(Faculty.class))).thenReturn(FACULTY);
-        when(facultyRepository.findById(any(Long.class))).thenReturn(Optional.of(FACULTY));
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/faculty")

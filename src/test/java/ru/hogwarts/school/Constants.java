@@ -8,8 +8,12 @@ public class Constants {
     public static final Long ID = 1L;
     public static final String NAME = "Бригадный подряд";
     public static final String COLOR = "Чёрный";
+
+    public static final String COLOR2 = "Красный";
     public static final JSONObject FACULTY_OBJECT = new JSONObject();
     public static final Faculty FACULTY = new Faculty();
+
+    public static final Faculty FACULTY2 = new Faculty();
 
     public static final Long ID_S = 1L;
     public static final String NAME_S = "Anna";
@@ -23,12 +27,16 @@ public class Constants {
         STUDENT.setId(ID_S);
         STUDENT.setName(NAME_S);
         STUDENT.setAge(AGE_S);
+
         FACULTY_OBJECT.put("name", NAME);
         FACULTY_OBJECT.put("color", COLOR);
         FACULTY.setId(ID);
         FACULTY.setName(NAME);
         FACULTY.setColor(COLOR);
+        FACULTY2.setId(ID);
+        FACULTY2.setName(NAME);
+        FACULTY2.setColor(COLOR2);
+
         STUDENT_OBJECT.put("faculty",FACULTY);
-        STUDENT.setFaculty(FACULTY);
     }
 }

@@ -20,13 +20,10 @@ public class StudentService {
         return studentRepository.save(student);
     }
 
-    public Student findStudent(long id) {
-        return studentRepository.findById(id).get();
+    public Optional<Student> findStudent(long id) {
+        return studentRepository.findById(id);
     }
 
-    public Student findStudentByName(long id) {
-        return studentRepository.findById(id).get();
-    }
 
     public Student editStudent(Student student) {
         return studentRepository.save(student);
@@ -34,6 +31,10 @@ public class StudentService {
 
     public void deleteStudent(long id) {
         studentRepository.deleteById(id);
+    }
+
+    public void deleteAllStudent() {
+        studentRepository.deleteAll();
     }
 
 

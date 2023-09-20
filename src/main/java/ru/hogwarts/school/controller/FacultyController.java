@@ -7,9 +7,10 @@ import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.service.FacultyService;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("faculty")
+@RequestMapping("/faculty")
 public class FacultyController {
     private FacultyService facultyService;
 
@@ -19,21 +20,11 @@ public class FacultyController {
 
     @GetMapping("{id}")
     public ResponseEntity<Faculty> getFaculty(@PathVariable long id) {
-        Faculty faculty = facultyService.findFaculty(id);
-        if (faculty == null) {
+        Optional<Faculty> faculty = facultyService.findFaculty(id);
+        if (faculty.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(faculty);
-    }
-
-    @GetMapping()
-    public ResponseEntity<Collection<Faculty>> getFacultyByNameOrColor(@RequestParam(required = false) String name,
-                                                                       @RequestParam(required = false) String color) {
-        Collection<Faculty> facultyByNameOrColor = facultyService.findByNameOrColor(name, color);
-        if (facultyByNameOrColor.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(facultyByNameOrColor);
+        return ResponseEntity.ok(faculty.get());
     }
 
     @PostMapping
@@ -54,5 +45,15 @@ public class FacultyController {
     public ResponseEntity deleteFaculty(@PathVariable long id) {
         facultyService.deleteFaculty(id);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping()
+    public ResponseEntity<Collection<Faculty>> getFacultyByNameOrColor(@RequestParam(required = false) String name,
+                                                                       @RequestParam(required = false) String color) {
+        Collection<Faculty> facultyByNameOrColor = facultyService.findByNameOrColor(name, color);
+        if (facultyByNameOrColor.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(facultyByNameOrColor);
     }
 }
