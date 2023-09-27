@@ -1,5 +1,7 @@
 package ru.hogwarts.school.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +16,8 @@ import java.util.Optional;
 @RestController
 @RequestMapping("student")
 public class StudentController {
+
+    Logger logger = LoggerFactory.getLogger(StudentController.class); //only for error
     private StudentService studentService;
 
     public StudentController(StudentService studentService) {
@@ -24,6 +28,7 @@ public class StudentController {
     public ResponseEntity<Student> getStudent(@PathVariable long id) {
         Optional<Student> student = studentService.findStudent(id);
         if (student.isEmpty()) {
+            logger.error("There is not student with id = " + id);
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(student.get());
@@ -38,6 +43,7 @@ public class StudentController {
     public ResponseEntity<Student> putStudent(@RequestBody Student student) {
         Student foundStudent = studentService.editStudent(student);
         if (foundStudent == null) {
+            logger.error("There is not student in data base = " + student);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         return ResponseEntity.ok(foundStudent);
@@ -76,6 +82,7 @@ public class StudentController {
     public ResponseEntity<Faculty> getFacultyByStudentId(@PathVariable long id) {
         Optional<Student> student = studentService.findStudent(id);
         if (student.isEmpty()) {
+            logger.error("There is not student with id = " + id);
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(student.get().getFaculty());
@@ -85,6 +92,7 @@ public class StudentController {
     public ResponseEntity<Collection<Student>> getStudentsByFaculty(@PathVariable long id) {
         Collection<Student> allStudentByFaculty = studentService.findStudentsByFaculty(id);
         if (allStudentByFaculty.isEmpty()) {
+            logger.error("There is not faculty with id = " + id);
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(allStudentByFaculty);
@@ -95,6 +103,7 @@ public class StudentController {
                                                                       @RequestParam long max) {
         Collection<Student> allStudentByAgeBetween = studentService.findByAgeBetween(min, max);
         if (allStudentByAgeBetween.isEmpty()) {
+            logger.error("No students found by age between min =" + min + " max = "+ max);
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(allStudentByAgeBetween);
