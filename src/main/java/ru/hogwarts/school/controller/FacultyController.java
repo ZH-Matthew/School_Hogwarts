@@ -64,4 +64,19 @@ public class FacultyController {
         }
         return ResponseEntity.ok(facultyByNameOrColor);
     }
+
+    @GetMapping("getLongestDepartmentName")
+    public ResponseEntity<String> getLongestDepartmentName(){
+        return ResponseEntity.ok(facultyService.getLongestDepartmentName());
+    }
+
+    @GetMapping("getValueFromParallelStream")
+    public ResponseEntity<Integer> getValueFromParallelStream(){
+        return ResponseEntity.ok(facultyService.getValueFromParallelStream());
+    }
+
+    @GetMapping("getValueWithoutParallelStream")
+    public ResponseEntity<Integer> getValueWithoutParallelStream(){
+        return ResponseEntity.ok(facultyService.getValueWithoutParallelStream());
+    }
 }

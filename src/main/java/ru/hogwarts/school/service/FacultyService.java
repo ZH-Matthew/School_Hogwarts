@@ -10,7 +10,11 @@ import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.FacultyRepository;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class FacultyService {
@@ -50,5 +54,34 @@ public class FacultyService {
         return facultyRepository.findByNameIgnoreCaseOrColorIgnoreCase(name, color);
     }
 
+    public String getLongestDepartmentName() {
+        return facultyRepository.findAll().stream()
+                .map(Faculty::getName)
+                .max(Comparator.comparing(String::length))
+                .orElse("Not Found");
+    }
 
+
+    public Integer getValueFromParallelStream() {
+        Instant start = Instant.now();
+        Integer sum = Stream.iterate(1, a -> a +1)
+                .parallel()
+                .limit(1_000_000)
+                .reduce(0, Integer::sum);
+        Instant finish = Instant.now();
+        long elapsed = Duration.between(start, finish).toMillis();
+        System.out.println("Прошло времени, мс: " + elapsed);
+        return sum;
+    }
+
+    public Integer getValueWithoutParallelStream() { //вариант без parallel в среднем оказался быстрее
+        Instant start = Instant.now();
+        Integer sum = Stream.iterate(1, a -> a +1)
+                .limit(1_000_000)
+                .reduce(0, Integer::sum);
+        Instant finish = Instant.now();
+        long elapsed = Duration.between(start, finish).toMillis();
+        System.out.println("Прошло времени, мс: " + elapsed);
+        return sum;
+    }
 }
