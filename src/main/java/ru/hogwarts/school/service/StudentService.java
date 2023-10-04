@@ -7,6 +7,7 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.StudentRepository;
 import ru.hogwarts.school.repository.sqlInteface.AllColumnsStudents;
 
+import java.sql.SQLOutput;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -93,6 +94,54 @@ public class StudentService {
                 .orElse(0);
     }
 
+
+    public void getNameStudentsInConsole() {
+        List<String> names = studentRepository.findAll().stream()
+                .map(Student::getName)
+                .collect(Collectors.toList());
+
+        System.out.println(names.get(0));
+        System.out.println(names.get(1));
+        System.out.println(Thread.currentThread().getName());
+
+        new Thread(()->{
+            System.out.println(names.get(2));
+            System.out.println(names.get(3));
+            System.out.println(Thread.currentThread().getName());
+        }).start();
+
+        new Thread(()->{
+            System.out.println(names.get(4));
+            System.out.println(names.get(5));
+            System.out.println(Thread.currentThread().getName());
+        }).start();
+
+        System.out.println(Thread.currentThread());
+    }
+
+    public void getNameStudentsInConsoleSynchro() {
+        List<String> names = studentRepository.findAll().stream()
+                .map(Student::getName)
+                .collect(Collectors.toList());
+
+        printNameInConsole(names.get(0));
+        printNameInConsole(names.get(1));
+
+        new Thread(()->{
+            printNameInConsole(names.get(2));
+            printNameInConsole(names.get(3));
+        }).start();
+
+        new Thread(()->{
+            printNameInConsole(names.get(4));
+            printNameInConsole(names.get(5));
+        }).start();
+
+    }
+
+    private synchronized void printNameInConsole(String name){
+        System.out.println(name);
+    }
 
 
 }

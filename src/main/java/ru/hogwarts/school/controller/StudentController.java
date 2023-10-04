@@ -118,6 +118,15 @@ public class StudentController {
         return ResponseEntity.ok(studentService.getAverageAgeOfAllStudents());
     }
 
+    @GetMapping("getNameStudentsInConsole")
+    public ResponseEntity getNameStudentsInConsole(){
+        studentService.getNameStudentsInConsole();
+        return ResponseEntity.ok().build();
+    }
 
-
+    @GetMapping("getNameStudentsInConsoleSynchro")
+    public ResponseEntity getNameStudentsInConsoleSynchro(){
+        studentService.getNameStudentsInConsoleSynchro();
+        return ResponseEntity.ok().build();
+    }
 }
